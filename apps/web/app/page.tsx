@@ -1,19 +1,20 @@
-import Image, { type ImageProps } from "next/image";
-import { dbClient } from "db/client";
+import { dbClient } from "db/client"; // adjust import path if needed
+import { User } from "@prisma/client";
 
 export default async function Home() {
-  const users = await dbClient.user.findMany();
+  const users: User[] = await dbClient.user.findMany();
 
   return (
     <div>
-      users are
-      <ol>
-        {users.map((user) => (
-          <li>
-            {user.username} , {user.id}
+      <h1>Users</h1>
+      <ul>
+        {users.map((u) => (
+          <li key={u.id}>
+            {u.username} - {u.password}
           </li>
         ))}
-      </ol>
+      </ul>
     </div>
   );
 }
+export const dynamic = "force-dynamic";
