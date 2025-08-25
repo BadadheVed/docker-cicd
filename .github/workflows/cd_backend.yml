@@ -22,4 +22,4 @@ jobs:
           context: .
           file: ./docker/Dockerfile.backend
           push: true
-          tags: docker.io/Ved/cicd-docker:${{ github.sha }}
+          tags: docker.io/ved104/cicd-docker:${{ github.sha }} # here there should must be username of the docker hub
