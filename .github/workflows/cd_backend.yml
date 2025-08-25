@@ -6,7 +6,7 @@ on:
 
 jobs:
   redeploy_docker_image:
-    runs-on: ubuntu@latest
+    runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v2"
 
