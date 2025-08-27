@@ -1,14 +1,14 @@
 FROM oven/bun:1 AS base
 
-WORKDIR /apps
+WORKDIR /home
 
 COPY package.json bun.lock turbo.json ./
 COPY packages ./packages
-COPY apps/backend ./apps/backend
+COPY apps/backend apps/backend
 
 RUN bun install
 
-WORKDIR /apps/backend
+WORKDIR /home/apps/backend
 RUN bun run db:generate
 
 EXPOSE 5000

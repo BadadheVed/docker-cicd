@@ -1,14 +1,14 @@
 FROM oven/bun:1 AS base
 
 ARG DATABASE_URL
-WORKDIR /apps
+WORKDIR /home
 
 # Copy root files
 COPY package.json ./package.json
 COPY bun.lock ./bun.lock
 COPY turbo.json ./turbo.json
 COPY packages ./packages
-COPY apps/web ./apps/web
+COPY apps/web apps/web
 
 # Install all dependencies at root (monorepo)
 RUN bun install
@@ -17,7 +17,7 @@ RUN bun install
 RUN bun run db:generate
 
 # Build the frontend workspace
-WORKDIR /apps/web
+WORKDIR /home/apps/web
 RUN DATABASE_URL=${DATABASE_URL} bun run build
 
 EXPOSE 3000
