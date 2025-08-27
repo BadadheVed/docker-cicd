@@ -45,4 +45,4 @@ jobs:
           port: 22
 
           script: |
-            bash ~/docker_deploy.sh ${{ github.sha }} "${{ secrets.DATABASE_URL }}"
+            bash ~/docker_deploy_backend.sh ${{ github.sha }} "${{ secrets.DATABASE_URL }}"
