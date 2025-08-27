@@ -24,11 +24,25 @@ jobs:
           push: true
           tags: docker.io/ved104/cicd-docker:${{ github.sha }}
 
-      # - name: SSH to the EC2 Instance
-      #   uses: appleboy/ssh-action@v1.0.3
-      #   with:
-      #     host: 13.203.229.244
-      #     username: ubuntu
-      #     key: ${{ secrets.ID_RSA }}
-      #     passphrase: ${{ secrets.ID_RSA_PASSPHRASE }}
-      #     port: 22
+      - name: Copy deploy script to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 13.203.229.244
+          username: ubuntu
+          key: ${{ secrets.ID_RSA }}
+          passphrase: ${{ secrets.ID_RSA_PASSPHRASE }}
+          source: "docker_deploy.sh"
+          target: "~/"
+
+      - name: SSH to the EC2 Instance & Push The Image
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 13.203.229.244
+          username: ubuntu
+          key: ${{ secrets.ID_RSA }}
+          passphrase: ${{ secrets.ID_RSA_PASSPHRASE }}
+
+          port: 22
+
+          script: |
+            bash ~/docker_deploy.sh ${{ github.sha }} "${{ secrets.DATABASE_URL }}"
