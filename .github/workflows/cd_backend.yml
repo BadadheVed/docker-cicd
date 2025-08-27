@@ -31,7 +31,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.ID_RSA }}
           passphrase: ${{ secrets.ID_RSA_PASSPHRASE }}
-          source: "docker_deploy.sh"
+          source: "docker_deploy_backend.sh"
           target: "~/"
 
       - name: SSH to the EC2 Instance & Push The Image

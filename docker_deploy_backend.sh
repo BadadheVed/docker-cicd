@@ -5,8 +5,8 @@ CONTAINER_NAME="backend_app"
 IMAGE_NAME="ved104/cicd-docker"
 IMAGE_TAG=$1    # commit SHA from GitHub Actions
 DATABASE_URL=$2 # DB URL passed as second argument
-PORT=3001
-APP_PORT=8081
+PORT=5000
+APP_PORT=8080
 
 echo "🚀 Starting deployment of $IMAGE_NAME:$IMAGE_TAG"
 
@@ -25,4 +25,4 @@ docker run -d \
   -e DATABASE_URL="$DATABASE_URL" \
   $IMAGE_NAME:$IMAGE_TAG
 
-echo "✅ Deployment complete!"
+echo "✅ Deployment complete! Started Backend Service on the port 5000 check at the EC2 Ip:5000"
