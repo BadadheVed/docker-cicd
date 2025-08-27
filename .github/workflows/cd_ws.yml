@@ -20,15 +20,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./docker/Dockerfile.backend
+          file: ./docker/Dockerfile.ws
           push: true
-          tags: docker.io/ved104/cicd-docker:${{ github.sha }}
-
-      - name: SSH to the EC2 Instance
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: 13.203.229.244
-          username: ubuntu
-          key: ${{ secrets.ID_RSA }}
-          passphrase: ${{ secrets.ID_RSA_PASSPHRASE }}
-          port: 22
+          tags: docker.io/ved104/cicd-docker-ws:${{ github.sha }}

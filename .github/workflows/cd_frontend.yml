@@ -1,4 +1,4 @@
-name: Deploy the docker image
+name: Deploy the docker image (Frontend)
 
 on:
   push:
@@ -20,9 +20,11 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          build-args: |
+            DATABASE_URL: ${{secrets.DATABASE_URL}}
           file: ./docker/Dockerfile.backend
           push: true
-          tags: docker.io/ved104/cicd-docker:${{ github.sha }}
+          tags: docker.io/ved104/cicd-docker-fe:${{ github.sha }}
 
       - name: SSH to the EC2 Instance
         uses: appleboy/ssh-action@v1.0.3

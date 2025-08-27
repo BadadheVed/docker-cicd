@@ -1,22 +1,24 @@
-FROM oven/bun:1 AS base
+FROM oven/bun:1
 
-# set workdir at repo root
 WORKDIR /apps
 
-COPY packages ./packages
-COPY bun.lock ./bun.lock
+# 1. Copy root manifest files (cache-friendly)
+COPY package.json bun.lock turbo.json ./
 
-COPY package.json ./package.json
-COPY turbo.json ./turbo.json
 
-COPY apps/backend /apps/backend
+COPY packages/*/package.json ./packages/*/
+COPY apps/backend/package.json ./apps/backend/
+
 
 RUN bun install
 
+
+COPY packages ./packages
+COPY apps/backend ./apps/backend
+
+# 5. Run backend-specific setup
+WORKDIR /apps/backend
 RUN bun db:generate
 
-WORKDIR /apps/backend
-EXPOSE 8080
-
-CMD [ "bun" ,"run" , "index.ts" ]
-
+EXPOSE 3000
+CMD ["bun", "run", "index.ts"]
