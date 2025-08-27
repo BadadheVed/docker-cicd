@@ -20,4 +20,4 @@ WORKDIR /home/apps/backend
 EXPOSE 5000
 
 
-CMD ["sh", "-c", "bun run db:migrate && bun run index.ts"]
+CMD ["sh", "-c", "cd ../.. && bun db:migrate && cd apps/backend && bun run index.ts"]
