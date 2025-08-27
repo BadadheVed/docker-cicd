@@ -2,22 +2,22 @@ FROM oven/bun:1
 
 WORKDIR /home
 
-# Copy manifests and lockfiles first (for better caching)
+
 COPY package.json bun.lock turbo.json ./
 
-# Copy workspaces
+
 COPY packages ./packages
 COPY apps/backend ./apps/backend
 
-# Install deps
+
 RUN bun install
 
-# Generate Prisma client (no DB connection needed here)
+
 RUN bun run db:generate   
 
 WORKDIR /home/apps/backend
 
 EXPOSE 5000
 
-# Run migrations + start backend
+
 CMD ["sh", "-c", "bun run db:migrate && bun run index.ts"]
