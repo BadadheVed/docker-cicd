@@ -1,24 +1,15 @@
-FROM oven/bun:1
+FROM oven/bun:1 AS base
 
 WORKDIR /apps
 
-# 1. Copy root manifest files (cache-friendly)
 COPY package.json bun.lock turbo.json ./
-
-
-COPY packages/*/package.json ./packages/*/
-COPY apps/backend/package.json ./apps/backend/
-
-
-RUN bun install
-
-
 COPY packages ./packages
 COPY apps/backend ./apps/backend
 
-# 5. Run backend-specific setup
-WORKDIR /apps/backend
-RUN bun db:generate
+RUN bun install
 
-EXPOSE 3000
+WORKDIR /apps/backend
+RUN bun run db:generate
+
+EXPOSE 5000
 CMD ["bun", "run", "index.ts"]
